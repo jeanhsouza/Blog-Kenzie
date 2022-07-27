@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 5 - Formulário</title>
+    <link rel="icon" href="./img/favicon.jpeg">
+</head>
+<body>
+    <h1>Kenzie Day 2022</h1>
+    <img src="./img/kenzie-day.webp" width="500" height="250" alt="Imagem do Kenzie Day">
+    <p>Para participar do nosso evento, favor preencher as informações abaixo:</p>
+    <form action="">
+        <label for="name">Nome do participante</label>
+        <br>
+        <input id=name type="text" placeholder="Digite seu nome aqui..." required>
+        <br>
+        <br>
+        <label for="email">E-mail do participante</label>
+        <br>
+        <input id=email type="email" placeholder="Digite seu e-mail aqui..." required>
+        <br>
+        <p>Porque você quer participar do Kenzie Day?</p>   
+        <textarea name="motiva" id="motiva" cols="60" rows="10" placeholder="O que mais me motivou para participar do Kenzie Day foi..."></textarea>
+        <br>
+        <br>
+        <label for="modulo">Qual é o seu módulo atual:</label>
+        <br>
+        <select name="modulo" id="modulo" required>
+            <option value="html">Selecione o módulo</option>
+            <option value="html">M1 - HTML</option>
+            <option value="css">M2 - CSS</option>
+            <option value="javas">M1 - JavaScript</option>
+        </select>
+        <br>
+        <br>
+        <label for="passw">Digite a sua senha</label>
+        <br>
+        <input id=passw type="password" placeholder="Digite uma senha..." required>
+        <br>
+        <br>
+        <label for="passwc">Confirme a sua senha</label>
+        <br>    
+        <input id=passwc type="password" placeholder="Confirme a senha..." required>
+        <br>
+        <p>Deseja receber as nossas novidades sobre o evento mais esperado da Kenzie?</p>
+        <input type="radio" value="yes" name="news" id="sim" required>
+        <label for="sim">Sim</label>
+        <input type="radio" value="no" name="news" id="no" required>
+        <label for="no">Não</label>
+        <br>
+        <br>        
+        <button type="submit">Me Inscrever no Kenzie Day</button>
+
+    </form>
+    
+</body>
+</html>

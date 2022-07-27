@@ -1,0 +1,772 @@
+
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>class RocketLazyLoadScripts{constructor(e){this.triggerEvents=e,this.eventOptions={passive:!0},this.userEventListener=this.triggerListener.bind(this),this.delayedScripts={normal:[],async:[],defer:[]},this.allJQueries=[]}_addUserInteractionListener(e){this.triggerEvents.forEach((t=>window.addEventListener(t,e.userEventListener,e.eventOptions)))}_removeUserInteractionListener(e){this.triggerEvents.forEach((t=>window.removeEventListener(t,e.userEventListener,e.eventOptions)))}triggerListener(){this._removeUserInteractionListener(this),"loading"===document.readyState?document.addEventListener("DOMContentLoaded",this._loadEverythingNow.bind(this)):this._loadEverythingNow()}async _loadEverythingNow(){this._delayEventListeners(),this._delayJQueryReady(this),this._handleDocumentWrite(),this._registerAllDelayedScripts(),this._preloadAllScripts(),await this._loadScriptsFromList(this.delayedScripts.normal),await this._loadScriptsFromList(this.delayedScripts.defer),await this._loadScriptsFromList(this.delayedScripts.async),await this._triggerDOMContentLoaded(),await this._triggerWindowLoad(),window.dispatchEvent(new Event("rocket-allScriptsLoaded"))}_registerAllDelayedScripts(){document.querySelectorAll("script[type=rocketlazyloadscript]").forEach((e=>{e.hasAttribute("src")?e.hasAttribute("async")&&!1!==e.async?this.delayedScripts.async.push(e):e.hasAttribute("defer")&&!1!==e.defer||"module"===e.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(e):this.delayedScripts.normal.push(e):this.delayedScripts.normal.push(e)}))}async _transformScript(e){return await this._requestAnimFrame(),new Promise((t=>{const n=document.createElement("script");let r;[...e.attributes].forEach((e=>{let t=e.nodeName;"type"!==t&&("data-rocket-type"===t&&(t="type",r=e.nodeValue),n.setAttribute(t,e.nodeValue))})),e.hasAttribute("src")?(n.addEventListener("load",t),n.addEventListener("error",t)):(n.text=e.text,t()),e.parentNode.replaceChild(n,e)}))}async _loadScriptsFromList(e){const t=e.shift();return t?(await this._transformScript(t),this._loadScriptsFromList(e)):Promise.resolve()}_preloadAllScripts(){var e=document.createDocumentFragment();[...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async].forEach((t=>{const n=t.getAttribute("src");if(n){const t=document.createElement("link");t.href=n,t.rel="preload",t.as="script",e.appendChild(t)}})),document.head.appendChild(e)}_delayEventListeners(){let e={};function t(t,n){!function(t){function n(n){return e[t].eventsToRewrite.indexOf(n)>=0?"rocket-"+n:n}e[t]||(e[t]={originalFunctions:{add:t.addEventListener,remove:t.removeEventListener},eventsToRewrite:[]},t.addEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.add.apply(t,arguments)},t.removeEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.remove.apply(t,arguments)})}(t),e[t].eventsToRewrite.push(n)}function n(e,t){let n=e[t];Object.defineProperty(e,t,{get:()=>n||function(){},set(r){e["rocket"+t]=n=r}})}t(document,"DOMContentLoaded"),t(window,"DOMContentLoaded"),t(window,"load"),t(window,"pageshow"),t(document,"readystatechange"),n(document,"onreadystatechange"),n(window,"onload"),n(window,"onpageshow")}_delayJQueryReady(e){let t=window.jQuery;Object.defineProperty(window,"jQuery",{get:()=>t,set(n){if(n&&n.fn&&!e.allJQueries.includes(n)){n.fn.ready=n.fn.init.prototype.ready=function(t){e.domReadyFired?t.bind(document)(n):document.addEventListener("rocket-DOMContentLoaded",(()=>t.bind(document)(n)))};const t=n.fn.on;n.fn.on=n.fn.init.prototype.on=function(){if(this[0]===window){function e(e){return e.split(" ").map((e=>"load"===e||0===e.indexOf("load.")?"rocket-jquery-load":e)).join(" ")}"string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=e(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach((t=>{delete Object.assign(arguments[0],{[e(t)]:arguments[0][t]})[t]}))}return t.apply(this,arguments),this},e.allJQueries.push(n)}t=n}})}async _triggerDOMContentLoaded(){this.domReadyFired=!0,await this._requestAnimFrame(),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._requestAnimFrame(),window.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._requestAnimFrame(),document.dispatchEvent(new Event("rocket-readystatechange")),await this._requestAnimFrame(),document.rocketonreadystatechange&&document.rocketonreadystatechange()}async _triggerWindowLoad(){await this._requestAnimFrame(),window.dispatchEvent(new Event("rocket-load")),await this._requestAnimFrame(),window.rocketonload&&window.rocketonload(),await this._requestAnimFrame(),this.allJQueries.forEach((e=>e(window).trigger("rocket-jquery-load"))),window.dispatchEvent(new Event("rocket-pageshow")),await this._requestAnimFrame(),window.rocketonpageshow&&window.rocketonpageshow()}_handleDocumentWrite(){const e=new Map;document.write=document.writeln=function(t){const n=document.currentScript,r=document.createRange(),i=n.parentElement;let o=e.get(n);void 0===o&&(o=n.nextSibling,e.set(n,o));const a=document.createDocumentFragment();r.setStart(a,0),a.appendChild(r.createContextualFragment(t)),i.insertBefore(a,o)}}async _requestAnimFrame(){return new Promise((e=>requestAnimationFrame(e)))}static run(){const e=new RocketLazyLoadScripts(["keydown","mousemove","touchmove","touchstart","touchend","wheel"]);e._addUserInteractionListener(e)}}RocketLazyLoadScripts.run();</script>
+
+	<!-- Google Tag Manager -->
+<script type="rocketlazyloadscript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WJRHDQ');</script>
+<!-- End Google Tag Manager -->
+
+	<!-- Meta tags -->
+	
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<title>Conheça o Culture Code da RD Station e saiba o que isso significa</title><link rel="stylesheet" href="https://resultadosdigitais.com.br/wp-content/cache/min/8/5890b22b80595fa9139f4cdc7cbb716e.css" media="all" data-minify="1" />
+
+	<!-- Favicons -->
+	<!-- <link rel="apple-touch-icon" sizes="57x57" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/apple-touch-icon-180x180.png"> -->
+	<link rel="icon" type="image/png" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons-rebrand/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons-rebrand/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons-rebrand/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons-rebrand/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons-rebrand/manifest.json">
+	<link rel="mask-icon" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons-rebrand/safari-pinned-tab.svg" color="#374b64">
+	<link rel="shortcut icon" href="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons-rebrand/favicon.ico">
+	
+	<meta name="msapplication-TileColor" content="#374b64">
+	<meta name="msapplication-TileImage" content="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/mstile-144x144.png">
+	<meta name="msapplication-config" content="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/favicons/browserconfig.xml">
+	
+	<meta name="theme-color" content="#374b64">
+	<meta name="google-site-verification" content="BlzJ7s_NWBqp5Xv81h-mD8GmckdEpncKMfR6rvaYP44" />
+	<meta name="google-site-verification" content="Lso6rT56p9tOxQWsFB9IZv0OwUfzxpSbwz9vLq1nbt0" />
+
+	<link rel='dns-prefetch' href='//google.com' />
+    <link rel='dns-prefetch' href='//google.com.br' />
+    <link rel='dns-prefetch' href='//www.google.com' />
+    <link rel='dns-prefetch' href='//www.google.com.br' />
+    <link rel='dns-prefetch' href='//maps.gstatic.com' />
+    <link rel='dns-prefetch' href='//fonts.googleapis.com' />
+    <link rel='dns-prefetch' href='//fonts.gstatic.com' />
+    <link rel='dns-prefetch' href='//use.fontawesome.com' />
+    <link rel='dns-prefetch' href='//ajax.googleapis.com' />
+    <link rel='dns-prefetch' href='//apis.google.com' />
+    <link rel='dns-prefetch' href='//google-analytics.com' />
+    <link rel='dns-prefetch' href='//www.google-analytics.com' />
+    <link rel='dns-prefetch' href='//ssl.google-analytics.com' />
+    <link rel='dns-prefetch' href='//www.googletagmanager.com' />
+    <link rel='dns-prefetch' href='//www.googletagservices.com' />
+    <link rel='dns-prefetch' href='//googleads.g.doubleclick.net' />
+    <link rel='dns-prefetch' href='//adservice.google.com' />
+    <link rel='dns-prefetch' href='//pagead2.googlesyndication.com' />
+    <link rel='dns-prefetch' href='//tpc.googlesyndication.com' />
+    <link rel='dns-prefetch' href='//www.googleoptimize.com' />
+    <link rel='dns-prefetch' href='//youtube.com' />
+    <link rel='dns-prefetch' href='//i.ytimg.com' />
+    <link rel='dns-prefetch' href='//player.vimeo.com' />
+    
+    <link rel='dns-prefetch' href='//bing.com' />
+    <link rel='dns-prefetch' href='//bat.bing.com' />
+
+    <link rel='dns-prefetch' href='//facebook.com' />
+    <link rel='dns-prefetch' href='//connect.facebook.net' />
+    <link rel='dns-prefetch' href='//twitter.com' />
+    <link rel='dns-prefetch' href='//platform.twitter.com' />
+    <link rel='dns-prefetch' href='//syndication.twitter.com' />
+    <link rel='dns-prefetch' href='//platform.instagram.com' />
+    <link rel='dns-prefetch' href='//linkedin.com' />
+    <link rel='dns-prefetch' href='//ads.linkedin.com' />
+    <link rel='dns-prefetch' href='//platform.linkedin.com' />
+    <link rel='dns-prefetch' href='//px.ads.linkedin.com' />
+    <link rel='dns-prefetch' href='//referrer.disqus.com' />
+    <link rel='dns-prefetch' href='//c.disquscdn.com' />
+    <link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+    <link rel='dns-prefetch' href='//cdn.ampproject.org' />
+    <link rel='dns-prefetch' href='//pixel.wp.com' />
+    <link rel='dns-prefetch' href='//disqus.com' />
+    <link rel='dns-prefetch' href='//sitename.disqus.com' />
+
+    <link rel='dns-prefetch' href='//s3.amazonaws.com' />
+    <link rel='dns-prefetch' href='//code.jquery.com' />
+    <link rel='dns-prefetch' href='//stackpath.bootstrapcdn.com' />
+
+    <link rel='dns-prefetch' href='//doubleclick.net' />
+    <link rel='dns-prefetch' href='//ad.doubleclick.net' />
+    <link rel='dns-prefetch' href='//stats.g.doubleclick.net' />
+    <link rel='dns-prefetch' href='//cm.g.doubleclick.net' />
+    <link rel='dns-prefetch' href='//stats.buysellads.com' />
+    <link rel='dns-prefetch' href='//s3.buysellads.com' />
+
+    <link rel='dns-prefetch' href='//resultadosdigitais.com.br' />
+    <link rel='dns-prefetch' href='//d390qphybw14q2.cloudfront.net' />
+    <link rel='dns-prefetch' href='//postaffiliatepro.com' />
+    <link rel='dns-prefetch' href='//rdstation.postaffiliatepro.com' />
+    <link rel='dns-prefetch' href='//t.tailtarget.com' />
+    <link rel='dns-prefetch' href='//afilio.com.br' />
+    <link rel='dns-prefetch' href='//secure.afilio.com.br' />
+    <link rel='dns-prefetch' href='//t.tailtarget.com' />
+    <link rel='dns-prefetch' href='//tt-14839-3.seg.t.tailtarget.com' />
+    <link rel='dns-prefetch' href='//js.driftt.com' />
+    <link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+    
+   
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-nunito-sans-800-css'  href='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/fonts/nunito-sans/nunito-sans-v8-latin-800.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-darker-grotesque-800-css'  href='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/fonts/darker-grotesque/darker-grotesque-v2-latin-800.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-darker-grotesque-900-css'  href='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/fonts/darker-grotesque/darker-grotesque-v2-latin-900.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-nunito-sans-regular-css'  href='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/fonts/nunito-sans/nunito-sans-v8-latin-regular.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-nunito-sans-600-css'  href='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/fonts/nunito-sans/nunito-sans-v8-latin-600.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-darker-grotesque-regular-css'  href='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/fonts/darker-grotesque/darker-grotesque-v2-latin-regular.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-darker-grotesque-500-css'  href='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/fonts/darker-grotesque/darker-grotesque-v2-latin-500.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-darker-grotesque-600-css'  href='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/fonts/darker-grotesque/darker-grotesque-v2-latin-600.woff2' type='text/css' media='all' />
+
+
+
+	<!-- <link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-darker-grotesque-300-css'  href='wp-content/themes/resultados_digitais/fonts/darker-grotesque/darker-grotesque-v2-latin-300.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-darker-grotesque-700-css'  href='wp-content/themes/resultados_digitais/fonts/darker-grotesque/darker-grotesque-v2-latin-700.woff2' type='text/css' media='all' />
+	
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-merriweather-300-css'  href='wp-content/themes/resultados_digitais/fonts/merriweather/merriweather-v25-latin-300.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-merriweather-regular-css'  href='wp-content/themes/resultados_digitais/fonts/merriweather/merriweather-v25-latin-regular.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-merriweather-700-css'  href='wp-content/themes/resultados_digitais/fonts/merriweather/merriweather-v25-latin-700.woff2' type='text/css' media='all' />
+	
+
+
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-open-sans-regular-css'  href='wp-content/themes/resultados_digitais/fonts/open-sans/open-sans-v27-latin-regular.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-open-sans-700-css'  href='wp-content/themes/resultados_digitais/fonts/open-sans/open-sans-v27-latin-700.woff2' type='text/css' media='all' />
+	<link rel='preload' as='font' type='font/woff2' crossorigin='anonymous'  id='preload-open-sans-800-css'  href='wp-content/themes/resultados_digitais/fonts/open-sans/open-sans-v27-latin-800.woff2' type='text/css' media='all' /> -->
+	
+	
+	    <title>Conheça o Culture Code da RD Station e saiba o que isso significa</title>
+<meta name='robots' content='max-image-preview:large' />
+
+<!-- This site is optimized with the Yoast SEO Premium plugin v12.9.2 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Conheça o conjunto de crenças e valores que acreditamos, praticamos e valorizamos aqui na RD Station, reunidos no nosso Culture Code"/>
+<meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
+<link rel="canonical" href="https://resultadosdigitais.com.br/noticias/culture-code-rd/" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Conheça o Culture Code da RD Station" />
+<meta property="og:description" content="Conheça o conjunto de crenças e valores que acreditamos, praticamos e valorizamos aqui na RD Station" />
+<meta property="og:url" content="https://resultadosdigitais.com.br/noticias/culture-code-rd/" />
+<meta property="og:site_name" content="Resultados Digitais" />
+<meta property="article:section" content="Notícias" />
+<meta property="article:published_time" content="2014-05-28T16:27:32+00:00" />
+<meta property="article:modified_time" content="2022-03-28T14:22:02+00:00" />
+<meta property="og:updated_time" content="2022-03-28T14:22:02+00:00" />
+<meta property="og:image" content="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station.png" />
+<meta property="og:image:secure_url" content="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station.png" />
+<meta property="og:image:width" content="1432" />
+<meta property="og:image:height" content="840" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Conheça o conjunto de crenças e valores que acreditamos, praticamos e valorizamos aqui na RD Station" />
+<meta name="twitter:title" content="Conheça o Culture Code da RD Station" />
+<meta name="twitter:image" content="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station.png" />
+<meta name="twitter:creator" content="@ericnsantos" />
+<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://resultadosdigitais.com.br/#website","url":"https://resultadosdigitais.com.br/","name":"Resultados Digitais","description":"Portal de Marketing e Vendas para PMEs. Falamos de SEO, m\u00eddias sociais, blog, gera\u00e7\u00e3o de Leads, vendas, email marketing, monitoramento, an\u00e1lise, vendas e otimiza\u00e7\u00e3o.","potentialAction":{"@type":"SearchAction","target":"https://resultadosdigitais.com.br/?s={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"ImageObject","@id":"https://resultadosdigitais.com.br/noticias/culture-code-rd/#primaryimage","url":"https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station.png","width":1432,"height":840,"caption":"culture code rd station"},{"@type":"WebPage","@id":"https://resultadosdigitais.com.br/noticias/culture-code-rd/#webpage","url":"https://resultadosdigitais.com.br/noticias/culture-code-rd/","inLanguage":"pt-BR","name":"Conhe\u00e7a o Culture Code da RD Station e saiba o que isso significa","isPartOf":{"@id":"https://resultadosdigitais.com.br/#website"},"primaryImageOfPage":{"@id":"https://resultadosdigitais.com.br/noticias/culture-code-rd/#primaryimage"},"datePublished":"2014-05-28T16:27:32+00:00","dateModified":"2022-03-28T14:22:02+00:00","author":{"@id":"https://resultadosdigitais.com.br/#/schema/person/df4605bee07f3ba457ccf241c057814d"},"description":"Conhe\u00e7a o conjunto de cren\u00e7as e valores que acreditamos, praticamos e valorizamos aqui na RD Station, reunidos no nosso Culture Code"},{"@type":["Person"],"@id":"https://resultadosdigitais.com.br/#/schema/person/df4605bee07f3ba457ccf241c057814d","name":"Eric Santos","image":{"@type":"ImageObject","@id":"https://resultadosdigitais.com.br/#authorlogo","url":"https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=96&d=mm&r=g","caption":"Eric Santos"},"description":"CEO e co-fundador da RD Station","sameAs":["ericnsantos","https://twitter.com/ericnsantos"]}]}</script>
+<!-- / Yoast SEO Premium plugin. -->
+
+<link rel='dns-prefetch' href='//ajax.googleapis.com' />
+<link rel='dns-prefetch' href='//maxcdn.bootstrapcdn.com' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	
+<style id='rocket-lazyload-inline-css' type='text/css'>
+.rll-youtube-player{position:relative;padding-bottom:56.23%;height:0;overflow:hidden;max-width:100%;}.rll-youtube-player:focus-within{outline: 2px solid currentColor;outline-offset: 5px;}.rll-youtube-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;background:0 0}.rll-youtube-player img{bottom:0;display:block;left:0;margin:auto;max-width:100%;width:100%;position:absolute;right:0;top:0;border:none;height:auto;-webkit-transition:.4s all;-moz-transition:.4s all;transition:.4s all}.rll-youtube-player img:hover{-webkit-filter:brightness(75%)}.rll-youtube-player .play{height:100%;width:100%;left:0;top:0;position:absolute;background:url(https://resultadosdigitais.com.br/wp-content/plugins/wp-rocket/assets/img/youtube.png) no-repeat center;background-color: transparent !important;cursor:pointer;border:none;}
+</style>
+<script type='text/javascript' src='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/dist/js/index-post.min.js' id='script-index-post-js'></script>
+<link rel="https://api.w.org/" href="https://resultadosdigitais.com.br/wp-json/" /><link rel="alternate" type="application/json" href="https://resultadosdigitais.com.br/wp-json/wp/v2/posts/4751" /><link rel='shortlink' href='https://resultadosdigitais.com.br/?p=4751' />
+<link rel="alternate" type="application/json+oembed" href="https://resultadosdigitais.com.br/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fresultadosdigitais.com.br%2Fnoticias%2Fculture-code-rd%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://resultadosdigitais.com.br/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fresultadosdigitais.com.br%2Fnoticias%2Fculture-code-rd%2F&#038;format=xml" />
+<!-- Stream WordPress user activity plugin v3.2.3 -->
+<link rel="icon" href="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/04/cropped-ResultadosDigitais_favicon-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/04/cropped-ResultadosDigitais_favicon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/04/cropped-ResultadosDigitais_favicon-180x180.png" />
+<meta name="msapplication-TileImage" content="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/04/cropped-ResultadosDigitais_favicon-270x270.png" />
+<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript></head>
+
+<body class="post-template-default single single-post postid-4751 single-format-standard">
+	
+<nav id="global-nav" role="navigation">
+    <div class="container">
+        
+        <div id="heading-menu-mobile" class="heading-menu heading-menu--mobile ">
+            <h2>O Maior Portal de Marketing e Vendas do Brasil</h2>
+        </div>
+    
+        <div class="row">
+            <div class="col-xs-3 hamburguer-menu">
+                <button type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"
+                    class="navbar-toggle collapsed hidden visible-xs hamburger ">
+                    <div class="hamburger-box">
+                        <div class="hamburger-inner"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="col-xs-8 logo-menu">
+                <div class="logo">
+                    <a href="/" data-wpel-link="internal"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20168%2040'%3E%3C/svg%3E"
+                            alt="Blog de Marketing Digital de Resultados" width="168" height="40" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/resultados-digitais-color.svg"><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/resultados-digitais-color.svg"
+                            alt="Blog de Marketing Digital de Resultados" width="168" height="40"></noscript></a>
+                </div>
+                
+                <div class="heading-menu heading-menu--desktop ">
+                    <h2>O Maior Portal de Marketing e Vendas do Brasil</h2>
+                </div>
+            </div>
+            <div class="col-xs-3 search-menu">
+                <ul class="nav navbar-nav navbar-right search-area">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#search-modal" data-wpel-link="internal">
+                            <span id="text-search-menu">Busca</span>
+                            <img width="18" height="18" loading="lazy" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2018%2018'%3E%3C/svg%3E" alt="Busca" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/icon-search.svg"><noscript><img width="18" height="18" loading="lazy" src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/icon-search.svg" alt="Busca"></noscript>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row header-nav-menu collapse navbar-collapse sticky" id="navbar-collapse">
+        <div class="container">
+            <div class="col-12">
+                <ul>
+                                            
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-wpel-link="internal">
+                                    Marketing                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdown">
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/empreendedorismo/" data-wpel-link="internal">Empreendedorismo</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/email-marketing/" data-wpel-link="internal">Email Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/ecommerce/" data-wpel-link="internal">Ecommerce</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/desenvolvimento-profissional/" data-wpel-link="internal">Desenvolvimento Profissional</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/datas-especiais/" data-wpel-link="internal">Datas Especiais</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/customer-success/" data-wpel-link="internal">Customer Success</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/ferramentas-de-marketing/" data-wpel-link="internal">Ferramentas de Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/gestao/" data-wpel-link="internal">Gestão</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/automacao-de-marketing/" data-wpel-link="internal">Automação de Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/growth-hacking/" data-wpel-link="internal">Growth Hacking</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/inbound-marketing/" data-wpel-link="internal">Inbound Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/inclusao-digital/" data-wpel-link="internal">Inclusão Digital</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/inteligencia-competitiva/" data-wpel-link="internal">Inteligência Competitiva</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/landing-page/" data-wpel-link="internal">Landing Page</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/lgpd/" data-wpel-link="internal">LGPD</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/marketing-de-conteudo/" data-wpel-link="internal">Marketing de Conteúdo</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/marketing-digital/" data-wpel-link="internal">Marketing Digital</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/marketing-para-eventos/" data-wpel-link="internal">Marketing para Eventos</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/metricas/" data-wpel-link="internal">Métricas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/midia-paga/" data-wpel-link="internal">Mídia Paga</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/midias-sociais/" data-wpel-link="internal">Mídias Sociais</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/profissionais/" data-wpel-link="internal">Profissionais</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/rd-station-marketing/" data-wpel-link="internal">RD Station Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/seo/" data-wpel-link="internal">SEO</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/tecnologia/" data-wpel-link="internal">Tecnologia</a>
+                                                                    </div>
+                            </li>
+                                                                    
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-wpel-link="internal">
+                                    Vendas                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdown">
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/rd-station-crm/" data-wpel-link="internal">RD Station CRM</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/tecnicas/" data-wpel-link="internal">Técnicas de Vendas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/crm-e-ferramentas/" data-wpel-link="internal">CRM e Ferramentas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/metodologia-peace/" data-wpel-link="internal">Metodologia PEACE</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/processo-comercial/" data-wpel-link="internal">Processo Comercial</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/marketing-e-vendas/" data-wpel-link="internal">Marketing e Vendas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/fidelizacao-e-relacionamento/" data-wpel-link="internal">Fidelização e Relacionamento</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/conteudos-inside-sales/" data-wpel-link="internal">Inside Sales</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/vendas/gestao-de-vendas/" data-wpel-link="internal">Gestão de Vendas</a>
+                                                                    </div>
+                            </li>
+                                                                    
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-wpel-link="internal">
+                                    Notícias                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdown">
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/noticias/diversidade-e-inclusao/" data-wpel-link="internal">Diversidade e Inclusão</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/noticias/pesquisas/" data-wpel-link="internal">Pesquisas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/noticias/eventos-externos/" data-wpel-link="internal">Eventos Externos</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/noticias/institucional/" data-wpel-link="internal">Institucional</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/noticias/rd-hostel/" data-wpel-link="internal">RD Hostel</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/noticias/rd-summit/" data-wpel-link="internal">RD Summit</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/noticias/trends/" data-wpel-link="internal">Trends</a>
+                                                                    </div>
+                            </li>
+                                                                    
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-wpel-link="internal">
+                                    Especiais                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdown">
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/o-que-e-automacao-de-marketing" data-wpel-link="internal">Automação de Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/porque-criar-um-blog/" data-wpel-link="internal">Blog</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/crm/" data-wpel-link="internal">CRM</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/o-que-e-cro/" data-wpel-link="internal">CRO</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/email-marketing/" data-wpel-link="internal">Email Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/o-que-e-inbound-marketing/" data-wpel-link="internal">Inbound Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/landing-page/" data-wpel-link="internal">Landing Page</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/links-patrocinados/" data-wpel-link="internal">Links Patrocinados</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/o-que-e-marketing" data-wpel-link="internal">Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing-de-conteudo/" data-wpel-link="internal">Marketing de Conteúdo</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/tudo-sobre-marketing-e-vendas" data-wpel-link="internal">Marketing e Vendas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/marketing/o-que-e-marketing-digital/" data-wpel-link="internal">Marketing Digital</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/planejamento-estrategico/" data-wpel-link="internal">Planejamento Estratégico</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/tudo-sobre-redes-sociais/" data-wpel-link="internal">Redes Sociais</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/o-que-e-seo/" data-wpel-link="internal">SEO</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/tudo-sobre-vendas" data-wpel-link="internal">Vendas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/tudo-sobre-video-marketing" data-wpel-link="internal">Vídeo Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/whatsapp/" data-wpel-link="internal">WhatsApp</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/web-stories-rd/" data-wpel-link="internal">Web Stories da RD</a>
+                                                                    </div>
+                            </li>
+                                                                                                <li>
+                                <a href="https://resultadosdigitais.com.br/materiais-educativos/" role="button" data-wpel-link="internal">Materiais Gratuitos</a>
+                            </li>
+                                                                    
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-wpel-link="internal">
+                                    Ferramentas Gratuitas                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdown">
+                                                                        <a class="dropdown-item text-center" href="https://materiais.resultadosdigitais.com.br/botao-de-whatsapp-gratuito" data-wpel-link="external" target="_blank" rel="external noopener">[novo] Botão de WhatsApp para Site</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/ferramentas/gerador-de-link-whatsapp/" data-wpel-link="internal">[novo] Gerador de link de WhatsApp</a>
+                                                                        <a class="dropdown-item text-center" href="https://materiais.resultadosdigitais.com.br/gerador-de-formularios-para-blog" data-wpel-link="external" target="_blank" rel="external noopener">[novo] Gerador de Formulário para Blog</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/ferramentas/metricas-email-marketing/" data-wpel-link="internal">[novo] Benchmarking de E-mail Marketing</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/ferramentas/analise-de-paginas/" data-wpel-link="internal">Análise de Sites</a>
+                                                                        <a class="dropdown-item text-center" href="http://ferramentas.resultadosdigitais.com.br/funil-de-vendas/" data-wpel-link="external" target="_blank" rel="external noopener">Benchmarking do Funil de Vendas</a>
+                                                                        <a class="dropdown-item text-center" href="https://www.rdstation.com/ferramentas/calculadora-do-roi-marketing-digital/" data-wpel-link="external" target="_blank" rel="external noopener">Calculadora de ROI em Marketing Digital</a>
+                                                                        <a class="dropdown-item text-center" href="http://ferramentas.resultadosdigitais.com.br/diagnostico-marketing-vendas/" data-wpel-link="external" target="_blank" rel="external noopener">Diagnóstico de Marketing e Vendas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/ferramentas/assinatura-de-email/" data-wpel-link="internal">Gerador de Assinatura de Email Profissional</a>
+                                                                        <a class="dropdown-item text-center" href="https://www.rdstation.com/ferramentas/definir-etapas-do-funil-de-vendas/" data-wpel-link="external" target="_blank" rel="external noopener">Gerador de Funil de Vendas</a>
+                                                                        <a class="dropdown-item text-center" href="http://ferramentas.resultadosdigitais.com.br/ferramenta-jornada/" data-wpel-link="external" target="_blank" rel="external noopener">Gerador de Jornada de Compra</a>
+                                                                        <a class="dropdown-item text-center" href="https://www.geradordepersonas.com.br/" data-wpel-link="external" target="_blank" rel="external noopener">Gerador de Personas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/ferramentas/maturidade-de-marketing-e-vendas/" data-wpel-link="internal">Nível de maturidade em Marketing Digital e Vendas</a>
+                                                                        <a class="dropdown-item text-center" href="https://resultadosdigitais.com.br/materiais-educativos/?traffic_value=&amp;s=ferramenta" data-wpel-link="internal">Todas as Ferramentas</a>
+                                                                    </div>
+                            </li>
+                                                                                                <li>
+                                <a href="https://rduniversity.com.br/" role="button" data-wpel-link="external" target="_blank" rel="external noopener">Cursos</a>
+                            </li>
+                                                                    
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-wpel-link="internal">
+                                    Eventos                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdown">
+                                                                        <a class="dropdown-item text-center" href="http://rdsummit.com.br/" data-wpel-link="external" target="_blank" rel="external noopener">RD Summit</a>
+                                                                        <a class="dropdown-item text-center" href="https://rdhostel.com/play/" data-wpel-link="external" target="_blank" rel="external noopener">Hostel by RD Summit</a>
+                                                                        <a class="dropdown-item text-center" href="http://rdontheroad.com.br/" data-wpel-link="external" target="_blank" rel="external noopener">RD on the Road</a>
+                                                                    </div>
+                            </li>
+                                                            </ul>
+            </div>
+        </div>
+    </div>
+</nav>	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJRHDQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<main role="main" class="main-single" itemscope itemtype="http://schema.org/BlogPosting">
+    <section id="topo">
+        <div class="container">
+            <div class="row row-header">
+                <div class="col-md-8">
+                    <h1 class="card-title">Conheça o Culture Code da RD Station</h1>
+                    <p class="descricao" itemprop='description'>Conheça o conjunto de crenças e valores que acreditamos, praticamos e valorizamos aqui na RD Station</p>
+                </div>
+                <div class="col-md-4 right-box">
+                    <div class="author-box" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                                                                                                    <img alt='' src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2096%2096'%3E%3C/svg%3E" data-lazy-srcset='https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=192&#038;d=mm&#038;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' data-lazy-src="https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=96&#038;d=mm&#038;r=g" /><noscript><img alt='' src='https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=96&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=192&#038;d=mm&#038;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /></noscript>                                                <p class="mb-0" itemprop="name"><strong><a href="https://resultadosdigitais.com.br/autor/ericnsantos/" title="Posts de Eric Santos" rel="author" data-wpel-link="internal">Eric Santos</a></strong></p>
+                        <p><time datetime="2014-05-28 13:27">28 de maio de 2014</time></p>
+                        <p>1min. de leitura</p>
+                    </div>
+                   <div class="social-network">
+    <ul>
+        <li>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://resultadosdigitais.com.br/noticias/culture-code-rd/" target="_blank" data-wpel-link="internal">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3C/svg%3E" alt="Icone Facebook" loading="lazy" width="32px" height="32px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-facebook.svg" /><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-facebook.svg" alt="Icone Facebook" loading="lazy" width="32px" height="32px" /></noscript>
+            </a>
+        </li>
+        <li>
+            <a href="https://twitter.com/intent/tweet?url=?https://resultadosdigitais.com.br/noticias/culture-code-rd/&amp;text=Conheça o Culture Code da RD Station&amp;via=resdigitais" target="_blank" data-wpel-link="internal">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3C/svg%3E" alt="Icone Twitter" loading="lazy" width="32px" height="32px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-twitter.svg" /><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-twitter.svg" alt="Icone Twitter" loading="lazy" width="32px" height="32px" /></noscript>
+            </a>
+        </li>
+        <li>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://resultadosdigitais.com.br/noticias/culture-code-rd/&amp;title=Conheça o Culture Code da RD Station&amp;source=https://resultadosdigitais.com.br" target="_blank" data-wpel-link="internal">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3C/svg%3E" alt="Icone Linkedin" loading="lazy" width="32px" height="32px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-linkedin.svg" /><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-linkedin.svg" alt="Icone Linkedin" loading="lazy" width="32px" height="32px" /></noscript>
+            </a>
+        </li>
+        <li>
+            <a href="https://api.whatsapp.com/send?text=Conhe%C3%A7a+o+Culture+Code+da+RD+Station%0Dhttps%3A%2F%2Fresultadosdigitais.com.br%2Fnoticias%2Fculture-code-rd%2F%3Futm_source%3Dresultadosdigitais.com.br%2526utm_medium%3Dsocial_share%2526utm_content%3Dwhatsapp" target="_blank" data-wpel-link="external" rel="external noopener">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3C/svg%3E" alt="Icone Whatsapp" loading="lazy" width="32px" height="32px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-whatsapp.svg" /><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-whatsapp.svg" alt="Icone Whatsapp" loading="lazy" width="32px" height="32px" /></noscript>
+            </a>
+        </li>
+    </ul>
+</div>                </div>
+            </div> 
+        </div>
+    </section>
+
+    <article id="conteudo">
+        <div class="container">
+            <hr>
+            <div class="row">
+                <div id="principal" class="col-md-9" itemprop="articleBody">
+                    <div class="banner-post">
+                        <div class="widget-area widget-banner">
+								<a href="https://rduniversity.com.br/course/curso-de-marketing-digital-para-iniciantes" target="_blank" data-wpel-link="external" rel="external noopener">
+										<img class="banner-desktop" loading="lazy" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="Curso Gratuito de Marketing Digital" data-lazy-src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/07/Curso-de-Marketing-Digital-Gratuito-2.png" /><noscript><img class="banner-desktop" loading="lazy" src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/07/Curso-de-Marketing-Digital-Gratuito-2.png" alt="Curso Gratuito de Marketing Digital" /></noscript>
+										<img class="banner-mobile" loading="lazy" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="Curso Gratuito de Marketing Digital" data-lazy-src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/07/Curso-de-Marketing-Digital-Gratuito-1.png" /><noscript><img class="banner-mobile" loading="lazy" src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/07/Curso-de-Marketing-Digital-Gratuito-1.png" alt="Curso Gratuito de Marketing Digital" /></noscript>
+								</a>
+						</div>                    </div>
+                    <p>Esse post é um pouco fora do tema <a href="https://resultadosdigitais.com.br/marketing/o-que-e-marketing-digital/" data-wpel-link="internal">Marketing Digital</a>, mas espero que seja no mínimo tão interessante quanto os conteúdos que costumamos publicar. Hoje estamos abrindo publicamente o nosso <em>Culture Code</em>, o conjunto de crenças e valores que <strong>acreditamos</strong>, <strong>praticamos</strong> e <strong>valorizamos</strong> aqui na RD Station.</p>
+<p>Para quem não conhece o que é um Culture Code, produzi-lo é uma iniciativa que ganhou bastante corpo depois que a<a href="http://www.slideshare.net/reed2001/culture-1798664" target="_blank" rel="noopener external" data-wpel-link="external"> Netflix publicou o seu em 2009</a>, e desde então várias outras empresas <a href="http://blog.slideshare.net/2014/01/08/culturecode-what-makes-a-company-great/" target="_blank" rel="noopener external" data-wpel-link="external">já fizeram e externalizaram seus materiais</a>.</p>
+<p>O Culture Code é um documento que serve para uma série de coisas: um guia para os colaboradores da empresa, um material para atração de novas pessoas para o time, critérios de seleção e avaliação de desempenho, um norte para onde queremos evoluir com as nossas práticas no dia a dia e em última instância até como um “manifesto” de como achamos que o trabalho deveria ser na maioria dos lugares.</p>
+<p>Além disso, e mais diretamente aos nossos leitores, clientes ou parceiros, é uma forma de saber o que esperar da RD e do nosso time nas interações conosco e conteúdos e produtos que criamos.</p>
+<p>Tendo vivido esse processo em várias empresas, sei que cultura é algo muito difícil de criar e ao mesmo tempo é bem frágil. É muito fácil perder rapidamente algo importante se não for bem cuidado, especialmente em ambientes de rápido crescimento. Cultura também é algo que simplesmente “acontece” mesmo que não se planeje (para o bem ou para o mal). Justamente por isso é importante pensar e definir esse conjunto de crenças e práticas antecipadamente.</p>
+<p>Tivemos a felicidade de, no início da RD, ter um time que se conhecia e já tinha trabalhado junto há muitos anos. Tínhamos muitos valores implícitos compartilhados, mas que com o rápido crescimento do time começaram a ter a necessidade de serem mais externalizados, discutidos, adaptados e melhorados.</p>
+<p>Esse é o resultado (atual) deste trabalho. Sem mais delongas, convido-os para conhecer abaixo o Culture Code da RD, clicando abaixo. Espero que gostem e, se gostarem, compartilhem! ;)</p>
+
+
+<figure class="wp-block-image size-large"><a href="https://www.cultura.rdstation.com/" data-wpel-link="external" target="_blank" rel="external noopener"><img width="720" height="422" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20720%20422'%3E%3C/svg%3E" alt="culture code rd station" class="wp-image-24930" data-lazy-srcset="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station-720x422.png 720w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station-345x202.png 345w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station-150x88.png 150w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station.png 1432w" data-lazy-sizes="(max-width: 720px) 100vw, 720px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station-720x422.png" /><noscript><img width="720" height="422" src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station-720x422.png" alt="culture code rd station" class="wp-image-24930" srcset="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station-720x422.png 720w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station-345x202.png 345w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station-150x88.png 150w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2014/05/culture-code-rd-station.png 1432w" sizes="(max-width: 720px) 100vw, 720px" /></noscript></a></figure>
+                
+                </div>
+                <aside class="col-md-3">
+                    <div id="index-post">
+    <div class="stick-wrapper">
+    <div class="topic-list-header">
+        <h4 class="topic-list-title">Índice</h4>
+    </div>
+    <ul class="topic-list">
+        
+    </ul>
+    </div>
+</div>                </aside>
+            </div>
+        </div>
+    </article>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mobile-social-network">
+                    <div class="social-network">
+    <ul>
+        <li>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://resultadosdigitais.com.br/noticias/culture-code-rd/" target="_blank" data-wpel-link="internal">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3C/svg%3E" alt="Icone Facebook" loading="lazy" width="32px" height="32px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-facebook.svg" /><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-facebook.svg" alt="Icone Facebook" loading="lazy" width="32px" height="32px" /></noscript>
+            </a>
+        </li>
+        <li>
+            <a href="https://twitter.com/intent/tweet?url=?https://resultadosdigitais.com.br/noticias/culture-code-rd/&amp;text=Conheça o Culture Code da RD Station&amp;via=resdigitais" target="_blank" data-wpel-link="internal">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3C/svg%3E" alt="Icone Twitter" loading="lazy" width="32px" height="32px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-twitter.svg" /><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-twitter.svg" alt="Icone Twitter" loading="lazy" width="32px" height="32px" /></noscript>
+            </a>
+        </li>
+        <li>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://resultadosdigitais.com.br/noticias/culture-code-rd/&amp;title=Conheça o Culture Code da RD Station&amp;source=https://resultadosdigitais.com.br" target="_blank" data-wpel-link="internal">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3C/svg%3E" alt="Icone Linkedin" loading="lazy" width="32px" height="32px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-linkedin.svg" /><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-linkedin.svg" alt="Icone Linkedin" loading="lazy" width="32px" height="32px" /></noscript>
+            </a>
+        </li>
+        <li>
+            <a href="https://api.whatsapp.com/send?text=Conhe%C3%A7a+o+Culture+Code+da+RD+Station%0Dhttps%3A%2F%2Fresultadosdigitais.com.br%2Fnoticias%2Fculture-code-rd%2F%3Futm_source%3Dresultadosdigitais.com.br%2526utm_medium%3Dsocial_share%2526utm_content%3Dwhatsapp" target="_blank" data-wpel-link="external" rel="external noopener">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3C/svg%3E" alt="Icone Whatsapp" loading="lazy" width="32px" height="32px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-whatsapp.svg" /><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/redes-sociais/icon-whatsapp.svg" alt="Icone Whatsapp" loading="lazy" width="32px" height="32px" /></noscript>
+            </a>
+        </li>
+    </ul>
+</div>                </div>
+            </div>
+        </div>
+
+        <div>
+                    </div>
+    </div>
+
+                <section id="marcadores">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Marcadores:</h4>
+                        <a href="https://resultadosdigitais.com.br/noticias/institucional/" rel="tag" data-wpel-link="internal">Institucional</a><a href="https://resultadosdigitais.com.br/noticias/" rel="tag" data-wpel-link="internal">Notícias</a>                    </div>
+                </div>
+            </div>
+        </section>
+    
+    <div class="container d-flex flex-column">
+        
+<section class="related-posts-single">
+    <div class="col-12 section-title">
+        <h3 class="title">Veja também</h3>
+    </div>
+    <div class="list-posts">
+                    <div class="card-post">
+                <div class="post-thumb">
+                    <a class="thumb-link" href="https://resultadosdigitais.com.br/noticias/intensivao-de-planejamento-de-marketing-para-2022/" rel="nofollow" data-wpel-link="internal"><img width="1366" height="768" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201366%20768'%3E%3C/svg%3E" class="card-img lazy-image wp-post-image" alt="" style="width: 392px; height: 220px;" data-lazy-srcset="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues.png 1366w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues-345x194.png 345w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues-720x405.png 720w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues-150x84.png 150w" data-lazy-sizes="(max-width: 1366px) 100vw, 1366px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues.png" /><noscript><img width="1366" height="768" src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues.png" class="card-img lazy-image wp-post-image" alt="" style="width: 392px; height: 220px;" srcset="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues.png 1366w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues-345x194.png 345w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues-720x405.png 720w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/01/Intensivao-de-Planejamento-de-Marketing-2022-Larissa-Lima-e-Diana-Rodrigues-150x84.png 150w" sizes="(max-width: 1366px) 100vw, 1366px" /></noscript></a>
+                </div>
+                
+                                                    <div class="post-tag">
+                        <a href="https://resultadosdigitais.com.br/noticias/institucional/" rel="tag" data-wpel-link="internal">Institucional</a><a href="https://resultadosdigitais.com.br/noticias/" rel="tag" data-wpel-link="internal">Notícias</a>                    </div>
+                
+                <div class="post-header">
+                    <a class="title-link" href="https://resultadosdigitais.com.br/noticias/intensivao-de-planejamento-de-marketing-para-2022/" rel="nofollow" data-wpel-link="internal">Intensivão de Planejamento de Marketing para 2022: confira os principais insights e estratégias</a>
+                    <p>Estratégias de Marketing, produção de conteúdo, planejamento de Email Marketing e integração com Vendas foram alguns dos temas da live da RD Station e da Rock Content</p>
+                    <a class="button" href="#" data-wpel-link="internal">acesse</a>
+                </div>
+
+
+                
+            </div>
+                    <div class="card-post">
+                <div class="post-thumb">
+                    <a class="thumb-link" href="https://resultadosdigitais.com.br/noticias/rd-university/" rel="nofollow" data-wpel-link="internal"><img width="908" height="692" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20908%20692'%3E%3C/svg%3E" class="card-img lazy-image wp-post-image" alt="RD University - Email Marketing" style="width: 392px; height: 220px;" data-lazy-srcset="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University.png 908w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University-345x263.png 345w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University-720x549.png 720w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University-150x114.png 150w" data-lazy-sizes="(max-width: 908px) 100vw, 908px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University.png" /><noscript><img width="908" height="692" src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University.png" class="card-img lazy-image wp-post-image" alt="RD University - Email Marketing" style="width: 392px; height: 220px;" srcset="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University.png 908w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University-345x263.png 345w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University-720x549.png 720w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2022/03/RD-University-150x114.png 150w" sizes="(max-width: 908px) 100vw, 908px" /></noscript></a>
+                </div>
+                
+                                                    <div class="post-tag">
+                        <a href="https://resultadosdigitais.com.br/noticias/institucional/" rel="tag" data-wpel-link="internal">Institucional</a><a href="https://resultadosdigitais.com.br/noticias/" rel="tag" data-wpel-link="internal">Notícias</a>                    </div>
+                
+                <div class="post-header">
+                    <a class="title-link" href="https://resultadosdigitais.com.br/noticias/rd-university/" rel="nofollow" data-wpel-link="internal">RD University: conheça a plataforma de cursos e educação da RD Station</a>
+                    <p>A educação está no DNA da RD Station, e a RD University oferece cursos de Marketing Digital e Vendas para turbinar carreiras e empresas</p>
+                    <a class="button" href="#" data-wpel-link="internal">acesse</a>
+                </div>
+
+
+                
+            </div>
+                    <div class="card-post">
+                <div class="post-thumb">
+                    <a class="thumb-link" href="https://resultadosdigitais.com.br/noticias/rd-marketing-day-2022/" rel="nofollow" data-wpel-link="internal"><img width="1043" height="635" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201043%20635'%3E%3C/svg%3E" class="card-img lazy-image wp-post-image" alt="RD Marketing Day 2022 - Dia do Profissional de Marketing" style="width: 392px; height: 220px;" data-lazy-srcset="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing.png 1043w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing-345x210.png 345w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing-720x438.png 720w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing-150x91.png 150w" data-lazy-sizes="(max-width: 1043px) 100vw, 1043px" data-lazy-src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing.png" /><noscript><img width="1043" height="635" src="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing.png" class="card-img lazy-image wp-post-image" alt="RD Marketing Day 2022 - Dia do Profissional de Marketing" style="width: 392px; height: 220px;" srcset="https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing.png 1043w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing-345x210.png 345w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing-720x438.png 720w, https://resultadosdigitais.com.br/wp-content/blogs.dir/8/files/2021/05/RD-Marketing-Day-2022-Dia-do-Profissional-de-Marketing-150x91.png 150w" sizes="(max-width: 1043px) 100vw, 1043px" /></noscript></a>
+                </div>
+                
+                                                    <div class="post-tag">
+                        <a href="https://resultadosdigitais.com.br/noticias/institucional/" rel="tag" data-wpel-link="internal">Institucional</a><a href="https://resultadosdigitais.com.br/noticias/" rel="tag" data-wpel-link="internal">Notícias</a>                    </div>
+                
+                <div class="post-header">
+                    <a class="title-link" href="https://resultadosdigitais.com.br/noticias/rd-marketing-day-2022/" rel="nofollow" data-wpel-link="internal">É HOJE! - RD Marketing Day: o maior evento em comemoração ao Dia do Profissional de Marketing</a>
+                    <p>Live acontece nos dia 26 de maio, com diversos prêmios e muito conteúdo gratuito ao longo do mês; confira os detalhes do evento, que contará com João Branco, do McDonald's Brasil</p>
+                    <a class="button" href="#" data-wpel-link="internal">acesse</a>
+                </div>
+
+
+                
+            </div>
+                    </div>
+</section>    </div>
+
+    <div class="container d-flex flex-column">
+		
+    <section class="author-info-epic">
+        <div class="author-box" itemprop="author" itemscope itemtype="https://schema.org/Person">
+            <div class="author-info">
+                <figure class="author-thumbnail">
+                    <a class="author-name" href="/autor/ericnsantos" rel="nofollow" data-wpel-link="internal">
+                        <img alt='' src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2056%2056'%3E%3C/svg%3E" data-lazy-srcset='https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=112&#038;d=mm&#038;r=g 2x' class='avatar avatar-56 photo' height='56' width='56' data-lazy-src="https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=56&#038;d=mm&#038;r=g" /><noscript><img alt='' src='https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=56&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c0eecae22da817fa5c817dc27b3082b6?s=112&#038;d=mm&#038;r=g 2x' class='avatar avatar-56 photo' height='56' width='56' /></noscript>                    </a>
+                </figure>
+                <a class="author-name" href="/autor/ericnsantos" rel="nofollow" itemprop="sameAs" data-wpel-link="internal"><span itemprop="name">Eric Santos</span></a>
+                <time class="author-created-post" datetime="28 de maio de 2014">28 de maio de 2014</time>
+                <a class="counter-posts" href="/autor/ericnsantos" rel="nofollow" data-wpel-link="internal">
+                    10 Posts
+                </a>
+                <ul class="author-network">
+                                                <li>
+                                <a href="https://linkedin.com/in/ericnsantos" target="_blank" rel="noopener external" data-wpel-link="external">
+                                    <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="linkedin" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/epic/icon_linkedin.svg"><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/epic/icon_linkedin.svg" alt="linkedin"></noscript>
+                                </a>
+                            </li>
+                                                <li>
+                                <a href="https://twitter.com/ericnsantos" target="_blank" rel="noopener external" data-wpel-link="external">
+                                    <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="twitter" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/epic/icon_twitter.svg"><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/epic/icon_twitter.svg" alt="twitter"></noscript>
+                                </a>
+                            </li>
+                                    </ul>
+            </div>
+            <div class="author-about">
+                <div>
+                    <h3 class="author-about-title">Sobre o autor</h3>
+                    <p class="author-about-description" itemprop="knowsAbout">CEO e co-fundador da RD Station</p>
+                </div>
+            </div>
+        </div>
+    </section>
+	</div>
+    
+</main>
+
+ 
+
+<div class="modal fade search-box" id="search-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <h2>O que você procura?</h2>
+            <form action="https://resultadosdigitais.com.br" id="searchform" method="get">
+                <div class="input-group">
+                    <input type="search" class="form-control" name="s" placeholder="Insira aqui os termos de busca" required autocomplete="off">
+                    <div class="input-group-btn"><button class="btn btn-default" type="submit">Pesquisar</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<section class="footer-newsletter">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3 class="footer-newsletter-title">Inscreva-se em nossa newsletter</h3>
+                <p class="footer-newsletter-description">E receba por email nossos conteúdos sobre Marketing Digital e Vendas.</p>
+            </div>  
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                <form method="post" id="rd-news" class="form-conversion-rdsm">
+                    <input type="email" name="email" id="email" placeholder="Digite aqui seu email" autocomplete="off" required>
+                    <button type="submit">Receber conteúdos</button>
+                </form>
+            </div>  
+        </div>
+    </div>
+</section>  
+
+<footer class="site-footer blog">
+    <div class="container">
+        <div class="site-footer-logo-social-links">
+            <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20168%2040'%3E%3C/svg%3E" class="logo" width="168" height="40" alt="Logo Resultados Digitais" loading="lazy" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/resultados-digitais-bw.svg"><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/resultados-digitais-bw.svg" class="logo" width="168" height="40" alt="Logo Resultados Digitais" loading="lazy"></noscript>
+            <ul class="list-social-links">
+                <li><a class="facebook" href="https://facebook.com/resultadosdigitais" target="_blank" data-wpel-link="external" rel="external noopener"></a></li>
+                <li><a class="twitter" href="https://twitter.com/resdigitais" target="_blank" data-wpel-link="external" rel="external noopener"></a></li>
+                <li><a class="linkedin" href="https://www.linkedin.com/company/2629565" target="_blank" data-wpel-link="external" rel="external noopener"></a></li>
+                <li><a class="instagram" href="https://www.instagram.com/resdigitais" target="_blank" data-wpel-link="external" rel="external noopener"></a></li>
+                <li><a class="youtube" href="https://www.youtube.com/user/ResultadosDigitaisBr" target="_blank" data-wpel-link="external" rel="external noopener"></a></li>
+                <li><a class="telegram" href="https://t.me/resultadosdigitais" target="_blank" data-wpel-link="external" rel="external noopener"></a></li>
+            </ul>
+        </div>
+        <div class="row site-footer-menu-items">
+            <div class="container">
+                <nav id="footer">
+                    <ul class="footer-menu">
+                                                    <li class="item">
+                                <a href="#" class="title" data-wpel-link="internal">
+                                    Editoriais                                </a>
+                                                                                                                                                                                <ul class="sub-menu">
+                                                                <li class="sub-menu-item">
+                                    <a href="https://resultadosdigitais.com.br/marketing/" class="title" data-wpel-link="internal">Marketing</a>
+                                </li>
+                                                                                                                                                                                <li class="sub-menu-item">
+                                    <a href="https://resultadosdigitais.com.br/vendas/" class="title" data-wpel-link="internal">Vendas</a>
+                                </li>
+                                                                                                                                                                                <li class="sub-menu-item">
+                                    <a href="https://resultadosdigitais.com.br/noticias/" class="title" data-wpel-link="internal">Notícias</a>
+                                </li>
+                                                                                                                                                                                <li class="sub-menu-item">
+                                    <a href="/categorias/" class="title" data-wpel-link="internal">Todas as categorias</a>
+                                </li>
+                                                                    </ul></li>
+                                     
+                                                                                                                <li class="item">
+                                <a href="#" class="title" data-wpel-link="internal">
+                                    Mais conteúdos                                </a>
+                                                                                                                                                                                <ul class="sub-menu">
+                                                                <li class="sub-menu-item">
+                                    <a href="/materiais-educativos/" class="title" data-wpel-link="internal">Materiais Educativos</a>
+                                </li>
+                                                                                                                                                                                <li class="sub-menu-item">
+                                    <a href="https://rduniversity.com.br/" class="title" data-wpel-link="external" target="_blank" rel="external noopener">Cursos</a>
+                                </li>
+                                                                                                                                                                                <li class="sub-menu-item">
+                                    <a href="https://resultadosdigitais.com.br/mapa-do-site/" class="title" data-wpel-link="internal">Mapa do Site</a>
+                                </li>
+                                                                                                        </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="footer-fixed">
+    <footer class="site-footer-rdstation">
+        <div class="container">
+            <div class="rdstation-logo">
+                <a href="https://www.rdstation.com/" target="_blank" data-wpel-link="external" rel="external noopener"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20176%2032'%3E%3C/svg%3E" width="176" height="32" alt="Logo RD Station" loading="lazy" data-lazy-src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/rdstation-color.svg"><noscript><img src="https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/img/rdstation-color.svg" width="176" height="32" alt="Logo RD Station" loading="lazy"></noscript></a>
+            </div>
+            <div class="rdstation-content">
+                <div class="rdstation-about">
+                    <p>Resultados Digitais faz parte da plataforma de conteúdo e educação da RD Station, desenvolvedora de softwares - focada em pequenas e médias empresas - líderes nas categorias de Marketing e Vendas.</p>
+                    <div class="links-wrapper">
+                        <ul class="rdstation-links">
+                            <li><a target="_blank" href="https://www.rdstation.com/trabalhe-conosco/" data-wpel-link="external" rel="external noopener">Trabalhe Conosco</a></li>
+                            <li><a target="_blank" href="https://www.rdstation.com/contato/" data-wpel-link="external" rel="external noopener">Entre em contato</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rdstation-contacts">
+                    <div class="rdstation-contacts-phone">
+                        <span class="phone-number">+ 55 48 3877-2700</span>
+                        <span class="office-hours">Horário de atendimento: segunda a sexta-feira, das 09h às 12h e das 13h às 18h.</span>
+                    </div>
+                    <div class="rdstation-contacts-address">
+                        Rodovia Virgílio Várzea, 3116, Floripa Office - Anexo ao Floripa Shopping - Saco Grande - Florianópolis - Santa Catarina | CEP: 88032-000
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <footer class="blog-copyright">
+        <div class="container">
+            <span class="blog-copyright-agencies">Já conhece o <a target="_blank" href="/agencias" data-wpel-link="internal">Agências de Resultados</a>?</span>
+            <span class="blog-copyright-rdstation">2022 © RD Station. <a target="_blank" href="https://legal.rdstation.com/pt-br/privacy-policy/" data-wpel-link="external" rel="external noopener">Política de Privacidade</a>.</span>
+        </div>
+    </footer>
+</div>
+
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' id='rocket-browser-checker-js-after'>
+"use strict";var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||!1,descriptor.configurable=!0,"value"in descriptor&&(descriptor.writable=!0),Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){return protoProps&&defineProperties(Constructor.prototype,protoProps),staticProps&&defineProperties(Constructor,staticProps),Constructor}}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor))throw new TypeError("Cannot call a class as a function")}var RocketBrowserCompatibilityChecker=function(){function RocketBrowserCompatibilityChecker(options){_classCallCheck(this,RocketBrowserCompatibilityChecker),this.passiveSupported=!1,this._checkPassiveOption(this),this.options=!!this.passiveSupported&&options}return _createClass(RocketBrowserCompatibilityChecker,[{key:"_checkPassiveOption",value:function(self){try{var options={get passive(){return!(self.passiveSupported=!0)}};window.addEventListener("test",null,options),window.removeEventListener("test",null,options)}catch(err){self.passiveSupported=!1}}},{key:"initRequestIdleCallback",value:function(){!1 in window&&(window.requestIdleCallback=function(cb){var start=Date.now();return setTimeout(function(){cb({didTimeout:!1,timeRemaining:function(){return Math.max(0,50-(Date.now()-start))}})},1)}),!1 in window&&(window.cancelIdleCallback=function(id){return clearTimeout(id)})}},{key:"isDataSaverModeOn",value:function(){return"connection"in navigator&&!0===navigator.connection.saveData}},{key:"supportsLinkPrefetch",value:function(){var elem=document.createElement("link");return elem.relList&&elem.relList.supports&&elem.relList.supports("prefetch")&&window.IntersectionObserver&&"isIntersecting"in IntersectionObserverEntry.prototype}},{key:"isSlowConnection",value:function(){return"connection"in navigator&&"effectiveType"in navigator.connection&&("2g"===navigator.connection.effectiveType||"slow-2g"===navigator.connection.effectiveType)}}]),RocketBrowserCompatibilityChecker}();
+</script>
+<script type='text/javascript' id='rocket-preload-links-js-extra'>
+/* <![CDATA[ */
+var RocketPreloadLinksConfig = {"excludeUris":"\/(.+\/)?feed\/?.+\/?|\/(?:.+\/)?embed\/|(\/[^\/]+)?\/(index\\.php\/)?wp\\-json(\/.*|$)|\/wp-admin\/|\/logout\/|\/wp-login.php","usesTrailingSlash":"1","imageExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif","fileExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|php|pdf|html|htm","siteUrl":"https:\/\/resultadosdigitais.com.br","onHoverDelay":"100","rateThrottle":"3"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' id='rocket-preload-links-js-after'>
+(function() {
+"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},e=function(){function i(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(e,t,n){return t&&i(e.prototype,t),n&&i(e,n),e}}();function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var t=function(){function n(e,t){i(this,n),this.browser=e,this.config=t,this.options=this.browser.options,this.prefetched=new Set,this.eventTime=null,this.threshold=1111,this.numOnHover=0}return e(n,[{key:"init",value:function(){!this.browser.supportsLinkPrefetch()||this.browser.isDataSaverModeOn()||this.browser.isSlowConnection()||(this.regex={excludeUris:RegExp(this.config.excludeUris,"i"),images:RegExp(".("+this.config.imageExt+")$","i"),fileExt:RegExp(".("+this.config.fileExt+")$","i")},this._initListeners(this))}},{key:"_initListeners",value:function(e){-1<this.config.onHoverDelay&&document.addEventListener("mouseover",e.listener.bind(e),e.listenerOptions),document.addEventListener("mousedown",e.listener.bind(e),e.listenerOptions),document.addEventListener("touchstart",e.listener.bind(e),e.listenerOptions)}},{key:"listener",value:function(e){var t=e.target.closest("a"),n=this._prepareUrl(t);if(null!==n)switch(e.type){case"mousedown":case"touchstart":this._addPrefetchLink(n);break;case"mouseover":this._earlyPrefetch(t,n,"mouseout")}}},{key:"_earlyPrefetch",value:function(t,e,n){var i=this,r=setTimeout(function(){if(r=null,0===i.numOnHover)setTimeout(function(){return i.numOnHover=0},1e3);else if(i.numOnHover>i.config.rateThrottle)return;i.numOnHover++,i._addPrefetchLink(e)},this.config.onHoverDelay);t.addEventListener(n,function e(){t.removeEventListener(n,e,{passive:!0}),null!==r&&(clearTimeout(r),r=null)},{passive:!0})}},{key:"_addPrefetchLink",value:function(i){return this.prefetched.add(i.href),new Promise(function(e,t){var n=document.createElement("link");n.rel="prefetch",n.href=i.href,n.onload=e,n.onerror=t,document.head.appendChild(n)}).catch(function(){})}},{key:"_prepareUrl",value:function(e){if(null===e||"object"!==(void 0===e?"undefined":r(e))||!1 in e||-1===["http:","https:"].indexOf(e.protocol))return null;var t=e.href.substring(0,this.config.siteUrl.length),n=this._getPathname(e.href,t),i={original:e.href,protocol:e.protocol,origin:t,pathname:n,href:t+n};return this._isLinkOk(i)?i:null}},{key:"_getPathname",value:function(e,t){var n=t?e.substring(this.config.siteUrl.length):e;return n.startsWith("/")||(n="/"+n),this._shouldAddTrailingSlash(n)?n+"/":n}},{key:"_shouldAddTrailingSlash",value:function(e){return this.config.usesTrailingSlash&&!e.endsWith("/")&&!this.regex.fileExt.test(e)}},{key:"_isLinkOk",value:function(e){return null!==e&&"object"===(void 0===e?"undefined":r(e))&&(!this.prefetched.has(e.href)&&e.origin===this.config.siteUrl&&-1===e.href.indexOf("?")&&-1===e.href.indexOf("#")&&!this.regex.excludeUris.test(e.href)&&!this.regex.images.test(e.href))}}],[{key:"run",value:function(){"undefined"!=typeof RocketPreloadLinksConfig&&new n(new RocketBrowserCompatibilityChecker({capture:!0,passive:!0}),RocketPreloadLinksConfig).init()}}]),n}();t.run();
+}());
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://resultadosdigitais.com.br/wp-content/cache/min/8/ajax/libs/jquery/3.2.1/jquery.min.js?ver=1658849954' id='script-jquery-js' defer></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://resultadosdigitais.com.br/wp-content/cache/min/8/bootstrap/3.3.7/js/bootstrap.min.js?ver=1658849954' id='script-bootstrap-js' defer></script>
+<script type='text/javascript' id='script-blog-js-extra'>
+/* <![CDATA[ */
+var post = {"author":"Eric Santos","subject":"Institucional"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' src='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/js/scripts.min.js?ver=1.82' id='script-blog-js' defer></script>
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' src='https://resultadosdigitais.com.br/wp-content/themes/resultados_digitais/js/lead-tracking-clean.min.js?ver=1' id='script-leadtracking-js' defer></script>
+<script type='text/javascript' src='https://resultadosdigitais.com.br/wp-includes/js/wp-embed.min.js?ver=93b6e70e69bb64906420ba1e14d5b282' id='wp-embed-js' defer></script>
+<script>window.lazyLoadOptions={elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}};window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://resultadosdigitais.com.br/wp-content/plugins/wp-rocket/assets/js/lazyload/17.5/lazyload.min.js"></script><script>function lazyLoadThumb(e){var t='<img data-lazy-src="https://i.ytimg.com/vi/ID/hqdefault.jpg" alt="" width="480" height="360"><noscript><img src="https://i.ytimg.com/vi/ID/hqdefault.jpg" alt="" width="480" height="360"></noscript>',a='<button class="play" aria-label="play Youtube video"></button>';return t.replace("ID",e)+a}function lazyLoadYoutubeIframe(){var e=document.createElement("iframe"),t="ID?autoplay=1";t+=0===this.parentNode.dataset.query.length?'':'&'+this.parentNode.dataset.query;e.setAttribute("src",t.replace("ID",this.parentNode.dataset.src)),e.setAttribute("frameborder","0"),e.setAttribute("allowfullscreen","1"),e.setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"),this.parentNode.parentNode.replaceChild(e,this.parentNode)}document.addEventListener("DOMContentLoaded",function(){var e,t,p,a=document.getElementsByClassName("rll-youtube-player");for(t=0;t<a.length;t++)e=document.createElement("div"),e.setAttribute("data-id",a[t].dataset.id),e.setAttribute("data-query", a[t].dataset.query),e.setAttribute("data-src", a[t].dataset.src),e.innerHTML=lazyLoadThumb(a[t].dataset.id),a[t].appendChild(e),p=e.querySelector('.play'),p.onclick=lazyLoadYoutubeIframe});</script>
+</body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me -->
